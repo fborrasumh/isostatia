@@ -1,11 +1,11 @@
 cff-version: 1.2.0
 message: "Si utilizas este software, cítalo así. / If you use this software, please cite it as below."
-title: "Generador de Problemas de Vigas Isostáticas"
-abstract: "Crea enunciados únicos para tus clases / Create unique statements for your classes"
+title: "IsostatIA"
+abstract: "Generador de problemas de resistencia de materiales / Materials Strength Problem Generator"
 type: software
 authors:
-  - family-names: "Borras Rocher"
-    given-names: "Fernando"
+  - family-names: "Fernando Borras Rocher"
+    given-names: "Nombre"
     orcid: "https://orcid.org/0000-0002-5519-4573"
     affiliation: "Universidad Miguel Hernández"
 version: 1.0.0
