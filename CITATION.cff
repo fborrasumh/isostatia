@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Si utilizas este software, cítalo así. / If you use this software, please cite it as below."
+title: "Generador de Problemas de Vigas Isostáticas"
+abstract: "Crea enunciados únicos para tus clases"
+type: software
+authors:
+  - family-names: "Apellidos"
+    given-names: "Nombre"
+version: 1.0.0
+date-released: "2026-09-02"
+license: CC-BY-4.0
+keywords:
+  - generative artificial intelligence
+  - higher education
+  - IAgen2027
+# Añade aquí el DOI que te dé Zenodo / Add the Zenodo DOI here:
+# doi: 10.5281/zenodo.XXXXXXX

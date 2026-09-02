@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generador de Problemas de Vigas Isostáticas</title>
+<meta name="description" content="Crea enunciados únicos para tus clases">
+<style>
+:root{--t:#12233A;--a:#2F5175;--ac:#8199B0;--p:#F4F7FA;--b:#E4572E;--l:#DAE2EA;--ok:#0E7C6B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--p);color:var(--t);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+header{background:var(--t);color:#EAF1F7;padding:26px 20px}
+.in{max-width:840px;margin:0 auto;position:relative}
+header h1{margin:0 0 6px;font-size:clamp(24px,4.6vw,34px);letter-spacing:-.02em}
+header p{margin:0;color:#A9C0D4;font-size:15px}
+.lang{position:absolute;top:0;right:0;display:flex;gap:4px}
+.lang button{background:transparent;border:1px solid #3E5C7D;color:#A9C0D4;font-size:12px;font-weight:600;padding:4px 9px;border-radius:5px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--b);border-color:var(--b);color:#fff}
+main{max-width:840px;margin:0 auto;padding:22px 20px 70px}
+.card{background:#fff;border:1px solid var(--l);border-radius:10px;padding:20px;margin-bottom:18px}
+label{display:block;font-size:13px;font-weight:600;color:var(--a);margin:0 0 5px}
+input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--l);border-radius:7px;font-size:15px;font-family:inherit;color:var(--t);background:#fff}
+textarea{min-height:92px;resize:vertical}
+.f{margin-bottom:14px}
+button{font-family:inherit;font-weight:600;font-size:15px;border-radius:7px;border:1px solid transparent;cursor:pointer}
+.go{background:var(--b);color:#fff;padding:12px 22px}
+.go:hover{background:#C9441F}
+.go:disabled{background:#C8D3DD;cursor:not-allowed}
+.gh{background:#fff;border-color:var(--l);color:var(--a);padding:9px 15px;font-size:14px}
+.gh:hover{border-color:var(--ac)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.msg{font-size:13.5px;color:#5D7691;margin-left:2px}
+.msg.err{color:var(--b);font-weight:600}
+.msg.ok{color:var(--ok);font-weight:600}
+.out{background:#fff;border:1px solid var(--l);border-left:3px solid var(--b);border-radius:10px;padding:22px;white-space:pre-wrap;font-size:15.5px;line-height:1.7}
+.out h2{font-size:19px;margin:18px 0 8px}
+.out h3{font-size:16px;margin:16px 0 6px}
+.out ul,.out ol{padding-left:22px}
+.out strong{font-weight:700}
+details{border:1px solid var(--l);border-radius:8px;background:#fff;margin-bottom:18px}
+summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:14px;color:var(--a)}
+.inner{padding:0 16px 16px}
+.nota{background:#FBE7DF;border:1px solid #F0C4B2;color:#8A3617;font-size:13px;padding:11px 14px;border-radius:8px;margin-bottom:16px}
+footer{max-width:840px;margin:0 auto;padding:0 20px 50px;font-size:12.5px;color:#6E8299;border-top:1px solid var(--l);padding-top:16px}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <div class="lang hide" id="lang"></div>
+  <h1 id="h1">Generador de Problemas de Vigas Isostáticas</h1><p id="sub">Crea enunciados únicos para tus clases</p>
+</div></header>
+<main>
+  <details id="cfg">
+    <summary id="cfgSum"></summary>
+    <div class="inner">
+      <p class="nota" id="cfgNota"></p>
+      <div class="f"><label for="k" id="kLab"></label><input type="password" id="k" placeholder="sk-..." autocomplete="off"></div>
+      <div class="row"><button class="gh" id="save"></button><button class="gh" id="wipe"></button><span class="msg" id="kmsg"></span></div>
+    </div>
+  </details>
+
+  <div class="card" id="form"></div>
+
+  <div class="row" style="margin-bottom:18px">
+    <button class="go" id="run"></button>
+    <button class="gh hide" id="copy"></button>
+    <button class="gh hide" id="dl"></button>
+    <span class="msg" id="msg"></span>
+  </div>
+
+  <div class="out hide" id="out"></div>
+</main>
+<footer><span id="pie">Autoría por completar</span> · <span id="foot"></span></footer>
+
+<script id="spec" type="application/json">{"slug":"generador-de-problemas-de-vigas-isostati","modelo":"gpt-4o-mini","systemPrompt":"Como docente de Resistencia de Materiales en el Grado en Ingeniería Civil, necesitas una herramienta que genere enunciados de problemas sobre vigas isostáticas. La app debe permitirte seleccionar el tipo de carga y la longitud de la viga, asegurando que cada estudiante reciba un problema diferente. El enunciado debe incluir las cargas, luces y secciones sorteadas dentro de rangos realistas. Además, la solución debe ser presentada de manera razonada y paso a paso, claramente separada del enunciado, para que puedas repartir solo la primera parte. No inventes referencias ni incluyas calificaciones en la salida.","instruccionSalida":"Devuelve el enunciado del problema y la solución razonada, separados en dos secciones, con un tono claro y técnico.","base":"es","idiomas":["es"],"bilingue":false,"campos":[{"id":"tipo_carga","tipo":"select","opciones":["Concentrada","Distribuida","Variable"],"requerido":true},{"id":"longitud_viga","tipo":"number","opciones":[],"requerido":true},{"id":"seccion_viga","tipo":"select","opciones":["Rectangular","Circular","I","T"],"requerido":true},{"id":"dificultad","tipo":"select","opciones":["Baja","Media","Alta"],"requerido":true}],"i18n":{"es":{"titulo":"Generador de Problemas de Vigas Isostáticas","subtitulo":"Crea enunciados únicos para tus clases","boton":"generar","campos":[{"label":"Tipo de carga","placeholder":"","opciones":["Concentrada","Distribuida","Variable"]},{"label":"Longitud de la viga (m)","placeholder":"Introduce la longitud","opciones":[]},{"label":"Sección de la viga","placeholder":"","opciones":["Rectangular","Circular","I","T"]},{"label":"Dificultad del problema","placeholder":"","opciones":["Baja","Media","Alta"]}]}}}</script>
+<script>
+(function(){
+  var SPEC = JSON.parse(document.getElementById('spec').textContent);
+  var KEY = 'ia_openai_key';
+  var $ = function(id){ return document.getElementById(id); };
+
+  var UI = {
+    es:{ cfg:'Configurar clave de OpenAI', nota:'Tu clave se guarda únicamente en este navegador. No introduzcas datos personales de estudiantes sin anonimizar.',
+      kLab:'Clave de API', save:'Guardar clave', wipe:'Borrar', saved:'Clave guardada.', loaded:'Clave cargada.', wiped:'Clave borrada de este navegador.',
+      needKey:'Escribe la clave antes de guardar.', noKey:'Falta la clave de API. Ábrela arriba y guárdala.', fill:'Completa: ', gen:'Generando…', ready:'Listo.',
+      copy:'Copiar', dl:'Descargar .md', copied:'Copiado al portapapeles.', quota:'Tu cuenta de OpenAI no tiene saldo. Recarga y vuelve a intentarlo.',
+      lang:'Responde íntegramente en español.',
+      foot:'Generada con ForjaIA (IAgen2027, Universidad Miguel Hernández de Elche). El resultado procede de un modelo de lenguaje: revísalo antes de usarlo con estudiantes.' },
+    en:{ cfg:'Set up your OpenAI key', nota:'Your key is stored in this browser only. Never enter identifiable student data.',
+      kLab:'API key', save:'Save key', wipe:'Delete', saved:'Key saved.', loaded:'Key loaded.', wiped:'Key deleted from this browser.',
+      needKey:'Enter the key before saving.', noKey:'No API key yet. Open the panel above and save one.', fill:'Please complete: ', gen:'Generating…', ready:'Done.',
+      copy:'Copy', dl:'Download .md', copied:'Copied to clipboard.', quota:'Your OpenAI account has no credit left. Top it up and try again.',
+      lang:'Answer entirely in English.',
+      foot:'Built with ForjaIA (IAgen2027, Universidad Miguel Hernández de Elche). The output comes from a language model: review it before using it with students.' },
+    pt:{ cfg:'Configurar chave da OpenAI', nota:'Sua chave fica somente neste navegador. Não insira dados pessoais de estudantes sem anonimizar.',
+      kLab:'Chave de API', save:'Salvar chave', wipe:'Apagar', saved:'Chave salva.', loaded:'Chave carregada.', wiped:'Chave apagada deste navegador.',
+      needKey:'Digite a chave antes de salvar.', noKey:'Falta a chave de API. Abra o painel acima e salve-a.', fill:'Complete: ', gen:'Gerando…', ready:'Pronto.',
+      copy:'Copiar', dl:'Baixar .md', copied:'Copiado para a área de transferência.', quota:'Sua conta da OpenAI está sem saldo. Recarregue e tente de novo.',
+      lang:'Responda inteiramente em português do Brasil.',
+      foot:'Gerado com ForjaIA (IAgen2027, Universidad Miguel Hernández de Elche). O resultado vem de um modelo de linguagem: revise antes de usar com estudantes.' }
+  };
+  var ETIQUETA = {es:'ES', en:'EN', pt:'PT'};
+
+  var LS = (function(){
+    try{ var t='__forja'; window.localStorage.setItem(t,'1'); window.localStorage.removeItem(t); return window.localStorage; }
+    catch(e){ var m={}; return {getItem:function(k){return m[k]||null;},setItem:function(k,v){m[k]=v;},removeItem:function(k){delete m[k];}}; }
+  })();
+
+  var base = SPEC.base || 'es';
+  var IDIOMAS = (SPEC.idiomas && SPEC.idiomas.length) ? SPEC.idiomas : [base];
+  var guardado = LS.getItem('forja_lang_' + SPEC.slug);
+  var lang = (IDIOMAS.indexOf(guardado) > -1) ? guardado : base;
+
+  /* ── Idioma ── */
+  if(IDIOMAS.length > 1){
+    var cont = $('lang');
+    cont.classList.remove('hide');
+    IDIOMAS.forEach(function(l){
+      var b = document.createElement('button');
+      b.type = 'button'; b.dataset.l = l; b.textContent = ETIQUETA[l] || l.toUpperCase();
+      b.onclick = function(){ lang = l; LS.setItem('forja_lang_' + SPEC.slug, l); pinta(); };
+      cont.appendChild(b);
+    });
+  }
+
+  function C(){ return SPEC.i18n[lang] || SPEC.i18n[base]; }
+  function T(){ return UI[lang] || UI.es; }
+
+  function pinta(){
+    var c = C(), u = T();
+    document.documentElement.lang = lang;
+    document.title = c.titulo;
+    $('h1').textContent = c.titulo;
+    $('sub').textContent = c.subtitulo;
+    $('cfgSum').textContent = u.cfg;
+    $('cfgNota').textContent = u.nota;
+    $('kLab').textContent = u.kLab;
+    $('save').textContent = u.save;
+    $('wipe').textContent = u.wipe;
+    $('run').textContent = c.boton;
+    $('copy').textContent = u.copy;
+    $('dl').textContent = u.dl;
+    $('foot').textContent = u.foot;
+    Array.prototype.forEach.call(document.querySelectorAll('#lang button'), function(b){
+      b.setAttribute('aria-pressed', b.dataset.l === lang ? 'true' : 'false');
+    });
+    pintaForm();
+  }
+
+  var valores = {};
+  function pintaForm(){
+    var c = C(), form = $('form');
+    Array.prototype.forEach.call(form.querySelectorAll('[data-ci]'), function(el){ valores[el.dataset.ci] = el.value; });
+    form.innerHTML = '';
+    SPEC.campos.forEach(function(campo, i){
+      var txt = (c.campos && c.campos[i]) ? c.campos[i] : {label: campo.id, placeholder:'', opciones: campo.opciones};
+      var w = document.createElement('div'); w.className = 'f';
+      var lab = document.createElement('label'); lab.setAttribute('for','c_'+campo.id);
+      lab.textContent = txt.label + (campo.requerido ? ' *' : '');
+      var el;
+      if(campo.tipo === 'textarea'){ el = document.createElement('textarea'); }
+      else if(campo.tipo === 'select'){
+        el = document.createElement('select');
+        var ops = (txt.opciones && txt.opciones.length) ? txt.opciones : campo.opciones;
+        ops.forEach(function(o, k){
+          var op = document.createElement('option');
+          op.value = campo.opciones[k] || o; op.textContent = o; el.appendChild(op);
+        });
+      } else { el = document.createElement('input'); el.type = (campo.tipo === 'number' ? 'number' : 'text'); }
+      el.id = 'c_' + campo.id; el.dataset.ci = campo.id;
+      if(txt.placeholder && campo.tipo !== 'select') el.placeholder = txt.placeholder;
+      if(valores[campo.id] !== undefined) el.value = valores[campo.id];
+      w.appendChild(lab); w.appendChild(el); form.appendChild(w);
+    });
+  }
+
+  /* ── Clave ── */
+  var saved = LS.getItem(KEY) || '';
+  if(saved){ $('k').value = saved; $('kmsg').textContent = T().loaded; $('kmsg').className = 'msg ok'; }
+  else { $('cfg').open = true; }
+  $('save').onclick = function(){
+    var v = $('k').value.trim();
+    if(!v){ $('kmsg').textContent = T().needKey; $('kmsg').className = 'msg err'; return; }
+    LS.setItem(KEY, v); $('kmsg').textContent = T().saved; $('kmsg').className = 'msg ok';
+  };
+  $('wipe').onclick = function(){
+    LS.removeItem(KEY); $('k').value = ''; $('kmsg').textContent = T().wiped; $('kmsg').className = 'msg';
+  };
+
+  /* ── Render mínimo de markdown ── */
+  function render(t){
+    var esc = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    esc = esc.replace(/^### (.*)$/gm,'<h3>$1</h3>')
+             .replace(/^## (.*)$/gm,'<h2>$1</h2>')
+             .replace(/^# (.*)$/gm,'<h2>$1</h2>')
+             .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+             .replace(/^\s*[-*] (.*)$/gm,'<li>$1</li>');
+    esc = esc.replace(/(<li>[\s\S]*?<\/li>)(?!\s*<li>)/g,'<ul>$1</ul>');
+    return esc;
+  }
+
+  var ultimo = '';
+  $('run').onclick = function(){
+    var u = T(), c = C();
+    var key = LS.getItem(KEY);
+    if(!key){ $('msg').textContent = u.noKey; $('msg').className = 'msg err'; $('cfg').open = true; return; }
+    var faltan = [], datos = [];
+    SPEC.campos.forEach(function(campo, i){
+      var txt = (c.campos && c.campos[i]) ? c.campos[i].label : campo.id;
+      var v = ($('c_' + campo.id).value || '').trim();
+      if(campo.requerido && !v) faltan.push(txt);
+      if(v) datos.push(txt + ': ' + v);
+    });
+    if(faltan.length){ $('msg').textContent = u.fill + faltan.join(', ') + '.'; $('msg').className = 'msg err'; return; }
+
+    $('run').disabled = true; $('msg').textContent = u.gen; $('msg').className = 'msg';
+    $('out').classList.add('hide'); $('copy').classList.add('hide'); $('dl').classList.add('hide');
+
+    fetch('https://api.openai.com/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body: JSON.stringify({
+        model: SPEC.modelo || 'gpt-4o-mini',
+        temperature: 0.7,
+        max_tokens: 2200,
+        messages:[
+          {role:'system', content: SPEC.systemPrompt + '\n\n' + SPEC.instruccionSalida + '\n\n' + u.lang},
+          {role:'user', content: datos.join('\n')}
+        ]
+      })
+    })
+    .then(function(r){
+      if(!r.ok) return r.json().then(function(e){ throw new Error((e.error && e.error.message) || ('Error ' + r.status)); });
+      return r.json();
+    })
+    .then(function(d){
+      ultimo = d.choices[0].message.content;
+      $('out').innerHTML = render(ultimo);
+      $('out').classList.remove('hide'); $('copy').classList.remove('hide'); $('dl').classList.remove('hide');
+      $('msg').textContent = u.ready; $('msg').className = 'msg ok';
+    })
+    .catch(function(e){
+      $('msg').textContent = (e.message.indexOf('quota') > -1) ? u.quota : e.message;
+      $('msg').className = 'msg err';
+    })
+    .then(function(){ $('run').disabled = false; });
+  };
+
+  $('copy').onclick = function(){
+    navigator.clipboard.writeText(ultimo).then(function(){ $('msg').textContent = T().copied; $('msg').className = 'msg ok'; });
+  };
+  $('dl').onclick = function(){
+    var b = new Blob([ultimo], {type:'text/markdown'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = (SPEC.slug || 'resultado') + '.md';
+    a.click(); URL.revokeObjectURL(a.href);
+  };
+
+  pinta();
+})();
+</script>
+</body>
+</html>
