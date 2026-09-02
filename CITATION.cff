@@ -1,11 +1,13 @@
 cff-version: 1.2.0
 message: "Si utilizas este software, cítalo así. / If you use this software, please cite it as below."
 title: "Generador de Problemas de Vigas Isostáticas"
-abstract: "Crea enunciados únicos para tus clases"
+abstract: "Crea enunciados únicos para tus clases / Create unique statements for your classes"
 type: software
 authors:
-  - family-names: "Apellidos"
-    given-names: "Nombre"
+  - family-names: "Borras Rocher"
+    given-names: "Fernando"
+    orcid: "https://orcid.org/0000-0002-5519-4573"
+    affiliation: "Universidad Miguel Hernández"
 version: 1.0.0
 date-released: "2026-09-02"
 license: CC-BY-4.0
